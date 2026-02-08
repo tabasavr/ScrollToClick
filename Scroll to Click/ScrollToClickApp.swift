@@ -8,10 +8,14 @@
 import SwiftUI
 
 @main
-struct Scroll_to_ClickApp: App {
+struct ScrollToClickApp: App {
+    
+    @NSApplicationDelegateAdaptor(AppDelegate.self)
+    var appDelegate
+    
     var body: some Scene {
-        WindowGroup {
-            ContentView()
+        Settings {
+            EmptyView()
         }
     }
 }
