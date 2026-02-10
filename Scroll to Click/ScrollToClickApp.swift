@@ -15,6 +15,13 @@ struct ScrollToClickApp: App {
 
     var body: some Scene {
         MenuBarExtra {
+            SettingsLink {
+                Text("Settings...")
+            }
+            .keyboardShortcut(",")
+
+            Divider()
+
             Button("Quit") {
                 NSApplication.shared.terminate(nil)
             }
@@ -25,7 +32,7 @@ struct ScrollToClickApp: App {
         }
 
         Settings {
-            EmptyView()
+            SettingsView()
         }
     }
 }

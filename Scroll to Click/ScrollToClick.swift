@@ -6,6 +6,7 @@
 //
 
 import Cocoa
+import SwiftUI
 
 final class ScrollToClick {
 
@@ -37,11 +38,11 @@ final class ScrollToClick {
                     return Unmanaged.passRetained(event)
                 }
 
-                // Ignore trackpad
+                // Check trackpad
                 let isContinuous = event.getIntegerValueField(
                     .scrollWheelEventIsContinuous
                 )
-                if isContinuous != 0 {
+                if isContinuous != 0 && !AppSettings.shared.enableForContinuous {
                     return Unmanaged.passRetained(event)
                 }
 
@@ -54,11 +55,23 @@ final class ScrollToClick {
 
                 let location = event.location
 
+                let action: MouseAction
+                if deltaY > 0 {
+                    action = AppSettings.shared.actionDown
+                } else {
+                    action = AppSettings.shared.actionUp
+                }
+
+                if action == .none {
+                    // don't intercept
+                    return Unmanaged.passRetained(event)
+                }
+
                 let button: CGMouseButton
                 let down: CGEventType
                 let up: CGEventType
 
-                if deltaY > 0 {
+                if action == .leftClick {
                     button = .left
                     down = .leftMouseDown
                     up = .leftMouseUp
